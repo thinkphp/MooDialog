@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   <title>MooDialog</title>
+   <link  href="style.css" rel="stylesheet" type="text/css" media="screen" />
+   <link  href="css/MooDialog.css" rel="stylesheet" type="text/css" media="screen" />
+   <script src="moo.js" type="text/javascript"></script>
+   <script src="Overlay.js" type="text/javascript"></script>
+   <script src="MooDialog.js" type="text/javascript"></script>
+   <script src="MooDialog.Confirm.js" type="text/javascript"></script>
+   <script src="MooDialog.Request.js" type="text/javascript"></script>
+   <script src="MooDialog.Alert.js" type="text/javascript"></script>
+   <script src="MooDialog.Iframe.js" type="text/javascript"></script>
+   <script src="MooDialog.Error.js" type="text/javascript"></script>
+   <script src="MooDialog.Prompt.js" type="text/javascript"></script>
+   <script type="text/javascript">
+
+   window.addEvent('domready',function(){
+
+	$('confirm').addEvent('click',function(e){
+		e.stop();
+		new MooDialog.Confirm('Are you sure you want to do this?',function(){
+                new MooDialog.Alert('Ok');
+		},function(){
+                new MooDialog.Alert('Cancel');
+		});
+	});
+
+	$('request').addEvent('click',function(e){
+		e.stop();
+		new MooDialog.Request('code.js',null,{
+
+                                  size: {
+                                         width: 500,
+                                         height: 300
+                                        },
+                                  title: 'made a request AJAX and GET code.js'
+            });
+	});
+
+
+	$('alert').addEvent('click',function(e){
+		e.stop();
+		new MooDialog.Alert('Are you sure?!');
+	});
+
+	$('iframe').addEvent('click',function(e){
+		e.stop();
+		new MooDialog.Iframe('http://php.net',{title: 'php.net',size:{width: 700,height: 500}});
+
+	});
+
+	$('error').addEvent('click',function(e){
+		e.stop();
+		new MooDialog.Error('Error message');
+	});
+
+      $('prompt').addEvent('click',function(e){
+
+		e.stop();
+            new MooDialog.Prompt('Enter a value for this variable:',function(val){
+                     new MooDialog.Alert('You have entered: "'+val+'"');
+            })
+
+      });
+
+      $('custom').addEvent('click',function(e){
+
+		e.stop();
+            new MooDialog.Alert('This is a customized Dialog',{
+
+                 title: 'Hello Fx.Transitions.Circ.easeOut',        
+                 fx: {
+                     type: 'morph',
+                     open: {
+                         'margin-top': [-100,0],
+                         opacity: [0,1] 
+                     },
+                     close: {
+                         'margin-top': [0,100],
+                         opacity: [1,0] 
+                     },
+                     options:{
+                         transition: Fx.Transitions.Circ.easeOut,
+                         duration: 500 
+                     }  
+                 }  
+            });
+      });//end handler for event click to object with ID 'custom'
+
+      //are you sure to continue, to go ahead...
+      $('confirmContinue').confirmLinkClick('Are you sure you want to continue?!');
+
+      //confirm submit form
+      $('f').confirmSubmitForm('Are you sure to submit form?!');
+
+      //you can create a Dialog from an Element DOM
+      $('fromelement').addEvent('click',function(e){
+         if(e){e.stop();}
+         $('info').MooDialog({title: 'create dialog from this form',size:{width: 500,height: 350},
+
+                 fx: {
+                     type: 'morph',
+                     open: {
+                         'margin-top': [-100,0],
+                         opacity: [0,1] 
+                     },
+                     close: {
+                         'margin-top': [0,100],
+                         opacity: [1,0] 
+                     },
+                     options:{
+                         transition: Fx.Transitions.Circ.easeOut,
+                         duration: 500 
+                     }  
+                 }  
+          });
+      });
+
+      //--------
+
+      $('newelement').addEvent('click',function(e){
+         if(e){e.stop();}
+         var content = '<form action="" method="get" id="info"><h2>Share your thoughts</h2><div id="name-wrap" class="slider"><label for="name">Name (required)</label><input type="text" id="name" name="name"></div><div id="email-wrap"  class="slider"><label for="email">E&ndash;mail(required)</label><input type="text" id="email" name="email"></div><div id="website-wrap"  class="slider"><label for="website">website (optional) </label><input type="text" id="website" name="website"></div><div id="message-wrap"  class="slider"><label for="message">Message</label><textarea id="message" name="message" rows="8" cols="35"></textarea></div><div id="submit-wrap"  class="slider"><label for="btn">&nbsp;</label><input type="submit" id="btn" name="btn" value="submit"></div><!--/#submit-wrap--></form>';
+         var newElement = new Element('div').set('html',content).MooDialog({size: {width:500,height:350}});
+      });
+     
+
+   }); //end DOMready
+
+   </script>
+</head>
+<body>
+<div id="doc" class="yui-t7">
+   <div id="hd" role="banner"><h1 class="title">class MooDialog - a MooTools Dialog Plugin</h1></div>
+   <div id="bd" role="main">
+	<div class="yui-g">
+
+      <h1>new MooDialog.Confirm(msg,fn1,fn2,options)</h1>
+
+	<a href="#" id="confirm">Click here for a confirm message</a> <br/><br/>
+
+      <h1>new MooDialog.Request(url,reqOptions,options)</h1>
+
+	<a href="#" id="request">get content via AJAX Request</a> <br/><br/>
+
+      <h1>new MooDialog.Alert(msg,options)</h1>
+
+	<a href="#" id="alert">Click here for a alert message</a> <br/><br/>
+
+      <h1>new MooDialog.Iframe(url,options)</h1>
+
+	<a href="#" id="iframe">PHP.net in a IFRAME</a> <br/><br/>
+
+      <h1>new MooDialog.Error(msg,options)</h1>
+
+	<a href="#" id="error">click here for an error message</a><br/><br/>
+
+      <h1>new MooDialog.Prompt(msg,fn,options)</h1>
+
+	<a href="#" id="prompt">click here for a prompt message</a> <br/><br/>
+
+      <h1>new MooDialog.Alert(msg,options) - customized</h1>
+
+	<a href="#" id="custom">click here for a customized Alert</a> <br/><br/>
+
+      <h1>myElem.confirmLinkClick()</h1>
+
+	<a href="http://thinkphp.ro" id="confirmContinue">Are you sure you want to continue this link?</a>
+
+      <h1>confirm Submit Form</h1>        
+
+      <form id="f" name="f">
+         <p><label for="firstname">First Name: </label><input type="text" id="firstname" name="firstname"></p>
+         <p><label for="lastname">Last Name: </label><input type="text" id="lastname" name="lastname"></p>
+         <p><input type="submit" id="submitform" name="submitform" value="Submit Form"></p>
+      </form> 
+
+      <h1>create a Dialog from an existing Element</h1>        
+ 	<a href="#" id="fromelement">create a Dialog from below form</a>
+
+<form action="" method="get" id="info">
+	<h2>Share your thoughts</h2>
+
+    <div id="name-wrap" class="slider">
+        <label for="name">Name (required)</label>
+        <input type="text" id="name" name="name">
+    </div><!--/#name-wrap-->
+
+    
+    <div id="email-wrap"  class="slider">
+        <label for="email">E&ndash;mail (required) </label>
+        <input type="text" id="email" name="email">
+
+    </div><!--/#email-wrap-->
+    
+    <div id="website-wrap"  class="slider">
+        <label for="website">website (optional) </label>
+        <input type="text" id="website" name="website">
+
+    </div><!--/#street-wrap-->
+    
+    <div id="message-wrap"  class="slider">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="8" cols="35"></textarea>
+      
+    </div><!--/#message-wrap-->
+    
+    <div id="submit-wrap"  class="slider">
+       <label for="btn">&nbsp;</label><input type="submit" id="btn" name="btn" value="submit">
+    </div><!--/#submit-wrap-->
+</form>
+
+
+      <h1>create a Dialog from an Element</h1>        
+ 	<a href="#" id="newelement">create a Dialog from an Element</a>
+
+	</div>
+	</div>
+   <div id="ft" role="contentinfo"><p>Written by <a href="http://thinkphp.ro">@thinkphp</a></p></div>
+</div>
+</body>
+</html>
